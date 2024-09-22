@@ -8,6 +8,9 @@ export default defineNuxtConfig({
       baseURL: process.env.PUBLIC_BASE_URL,
     },
   },
+  css: [
+    '~/assets/scss/style.scss',
+  ],
   nitro: {
     devProxy: {
       '/api': {
