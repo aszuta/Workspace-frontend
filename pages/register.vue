@@ -1,0 +1,69 @@
+<template>
+    <AppPage>
+        <div class="AppPage__register-container">
+            <form class="AppPage__register-form" method="post" @submit.prevent="register()">
+                <h1 class="AppPage__form-title">Register</h1>
+                <Input v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
+                <Input v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
+                <Input v-model="form.password" type="password" placeholder="Password" name="password" label="Password "/>
+                <button class="AppPage__form-button">Login</button>
+            </form>
+            <div class="AppPage__info">
+                <div class="AppPage__info-message">Masz konto?</div>
+                <NuxtLink to="/login" class="AppPage__info-link">Zaloguj się</NuxtLink>
+            </div>
+        </div>
+    </AppPage>
+</template>
+
+<script setup>
+const form = {
+    name: '',
+    email: '',
+    password: '',
+};
+</script>
+
+<style lang="scss">
+.AppPage {
+
+    &__register-container {
+        display: inherit;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    &__register-form {
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+    }
+
+    &__form-title {
+        text-align: center;
+        font-size: 30px;
+    }
+
+    &__form-button {
+        width: 100%;
+        min-height: 40px;
+        padding: 0.5rem 1rem;
+        background-color: #bfbfbf;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        transition: 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            transition: 0.3s;
+            background-color: #969696;
+        }
+    }
+
+    &__info {
+        display: inherit;
+        flex-direction: inherit;
+        align-items: center;
+    }
+}
+</style>
