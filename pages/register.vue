@@ -1,10 +1,13 @@
 <template>
     <AppPage>
         <div class="AppPage__register-container">
-            <form class="AppPage__register-form" method="post" @submit.prevent="register()">
+            <form class="AppPage__register-form" method="post" @submit.prevent="submit()">
                 <h1 class="AppPage__form-title">Register</h1>
+                {{ error.name }}
                 <Input v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
+                {{ error.email }}
                 <Input v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
+                {{ error.password }}
                 <Input v-model="form.password" type="password" placeholder="Password" name="password" label="Password "/>
                 <button class="AppPage__form-button">Login</button>
             </form>
@@ -17,10 +20,43 @@
 </template>
 
 <script setup>
-const form = {
+const api = useApi();
+const { errors, validateRegister } = useRegisterValidation();
+const form = ref({
     name: '',
     email: '',
     password: '',
+});
+let error = ref({
+    name: '',
+    email: '',
+    password: ''
+});
+
+function submit() {
+    const result = validateRegister(form.value.name, form.value.email, form.value.password);
+    
+    if(result.success) {
+        register();
+    } else {
+        error.value = {
+            name: errors.value.name,
+            email: errors.value.email,
+            password: errors.value.password
+        }
+    }
+};
+
+async function register() {
+    try {
+        console.log(form);
+        await api('/api/user', {
+            method: 'post',
+            body: form.value,
+        }).then(() => navigateTo('/'));
+    } catch (error) {
+        console.log(error);
+    }
 };
 </script>
 
