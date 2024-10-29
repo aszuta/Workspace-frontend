@@ -9,6 +9,6 @@
 .Layout {
     width: 100%;
     min-height: 100vh;
-    background-color: #fffcfa;
+    background-color: #f9f9fb;
 }
 </style>

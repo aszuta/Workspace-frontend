@@ -1,7 +1,7 @@
 <template>
-    <AppPage>
+    <AppPage name="register">
         <div class="AppPage__register-container">
-            <form class="AppPage__register-form" method="post" @submit.prevent="submit()">
+            <form class="AppPage__register-form" method="post" @submit.prevent="register()">
                 <h1 class="AppPage__form-title">Register</h1>
                 {{ error.name }}
                 <Input v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
@@ -36,7 +36,7 @@ let error = ref({
 function submit() {
     const result = validateRegister(form.value.name, form.value.email, form.value.password);
     
-    if(result.success) {
+    if(result === true) {
         register();
     } else {
         error.value = {
@@ -49,11 +49,14 @@ function submit() {
 
 async function register() {
     try {
-        console.log(form);
+        console.log(form.value);
         await api('/api/user', {
             method: 'post',
             body: form.value,
-        }).then(() => navigateTo('/'));
+        }).then(() => {
+            useUserStore().isLoggedIn = true;
+            navigateTo('/');
+        });
     } catch (error) {
         console.log(error);
     }

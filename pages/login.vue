@@ -1,5 +1,5 @@
 <template>
-    <AppPage>
+    <AppPage name="login">
         <div class="AppPage__login-container">
             <form class="AppPage__login-form" method="post" @submit.prevent="submit()">
                 <h1 class="AppPage__form-title">Login</h1>
@@ -27,8 +27,9 @@ let error = ref('');
 
 function submit() {
     const result = validateLogin(form.value.email, form.value.password);
+    console.log(result)
     
-    if(result.success) {
+    if(result === true) {
         login();
     } else {
         error.value = errors.value.loginError;
@@ -41,7 +42,10 @@ async function login() {
         await api('api/auth/login', {
             method: 'post',
             body: form.value
-        }).then(() => navigateTo('/'));
+        }).then(() => {
+            useUserStore().isLoggedIn = true;
+            navigateTo('/');
+        });
     } catch (error) {
         console.log(error);
     }
@@ -58,7 +62,6 @@ async function login() {
     }
 
     &__login-form {
-        margin-top: 2rem;
         padding: 1rem 2rem;
     }
 
