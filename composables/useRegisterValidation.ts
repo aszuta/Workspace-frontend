@@ -6,6 +6,11 @@ export const useRegisterValidation = () => {
     });
 
     const validateRegister = (name: string, email: string, password: string) => {
+        errors.value = {
+            name: '',
+            email: '',
+            password: ''
+        };
         const emailRegExp: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if(name === '' || undefined) {
@@ -27,7 +32,7 @@ export const useRegisterValidation = () => {
         }
     
         if(Object.keys(errors.value).length === 0) {
-            return { success: true };
+            return true;
         }
     };
 
