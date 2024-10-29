@@ -14,24 +14,23 @@ defineProps({
 
 <style lang="scss">
 .Board {
-    height: 100px;
+    height: 75px;
     display: inline-flex;
 
     &__container {
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 3px solid black;
+        border: 3px solid #ffffff;
         border-radius: 10px;
+        background-color: #ffffff;
         padding: 10px;
         width: 100%;
         height: 100%;
         transition: 0.3s ease-in-out;
 
         &:hover {
-            border: 3px solid purple;
-            background-color: rgb(185, 10, 185);
-            color: white;
+            box-shadow: 3px 3px 6px rgba(88, 88, 88, 0.2);
             cursor: pointer;
         }
     }

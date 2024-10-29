@@ -32,7 +32,7 @@ defineProps({
     }
 
     &__field {
-        border: solid 1px #bfbfbf;
+        border: solid 3px #f9f9fc;
         border-radius: 10px;
         padding: 0.5rem 1rem;
         min-height: 40px;
