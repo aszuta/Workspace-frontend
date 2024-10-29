@@ -1,5 +1,5 @@
 import { useUserStore } from '~/store/user';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default defineNuxtPlugin(() => {
     const user = useUserStore();
@@ -13,7 +13,7 @@ export default defineNuxtPlugin(() => {
                 });
             }
 
-            const decodedCookie: JwtPayload = jwtDecode(cookie);
+            const decodedCookie = jwtDecode(cookie);
             const exp = decodedCookie.exp - 30;
             const currentDate = Date.now() / 1000;
 
