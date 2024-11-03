@@ -7,7 +7,7 @@
             <nav class="AppHeader__navigation">
                 <ul class="AppHeader__navigation-list">
                     <!-- <li class="AppHeader__navigation-item">{{ userStore.userData[0].name }}</li> -->
-                    <li class="AppHeader__navigation-item">
+                    <li v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-item">
                         <button class="AppHeader__navigation-button" @click.prevent="logout()">
                             <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
                         </button>
@@ -62,6 +62,7 @@ async function logout() {
         z-index: 5;
         transition: 0.3s;
         text-decoration: none;
+        color: black;
         
         &:hover {
             transition: 0.3s;

@@ -1,7 +1,7 @@
 <template>
     <div class="Input">
         <label :for="name" class="Input__label">{{ label }}</label>
-        <input :id="name" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :placeholder="placeholder" :type="type" class="Input__field">
+        <input :id="name" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :type="type" class="Input__field">
     </div>
 </template>
 
@@ -11,10 +11,6 @@ defineProps({
     type: String,
     name: String,
     modelValue: {
-        type: String,
-        default: '',
-    },
-    placeholder: {
         type: String,
         default: '',
     },
@@ -32,10 +28,11 @@ defineProps({
     }
 
     &__field {
-        border: solid 3px #f9f9fc;
+        border: solid 1px #f9f9fc;
         border-radius: 10px;
+        font-size: 16px;
         padding: 0.5rem 1rem;
-        min-height: 40px;
+        min-height: 44px;
         width: 100%;
         margin-bottom: 10px;
     }
