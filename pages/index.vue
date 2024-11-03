@@ -18,6 +18,10 @@
 <script setup>
 import { useUserStore } from '~/store/user';
 
+definePageMeta({
+    middleware:['auth'],
+});
+
 const api = useApi();
 const userStore = useUserStore();
 const isModalActive = ref(false);
@@ -61,7 +65,7 @@ function openModal() {
     &__button {
         height: 50px;
         width: 50px;
-        border: 3px solid purple;
+        border: 3px solid #a33e8c;
         border-radius: 100px;
         font-size: 30px;
         transition: 0.3s;
@@ -71,14 +75,14 @@ function openModal() {
         justify-content: center;
         align-items: center;
         padding: 10px 20px;
-        background-color: purple;
+        background-color: #a33e8c;
         color: white;
         cursor: pointer;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
         &:hover {
-            border: 3px solid #a802a8;
-            background-color: #a802a8;
+            border: 3px solid #ba49a1;
+            background-color: #ba49a1;
             transition: 0.3s;
         }
     }
