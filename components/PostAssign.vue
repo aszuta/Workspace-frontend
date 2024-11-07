@@ -65,25 +65,24 @@ async function submit() {
         width: 100%;
         min-height: 40px;
         padding: 0.5rem 1rem;
-        background-color: #bfbfbf;
-        border-radius: 10px;
+        background-color: #a33e8c;
+        border-radius: 20px;
         color: white;
         font-size: 16px;
         transition: 0.3s;
-        margin-top: 1rem;
         cursor: pointer;
 
         &:hover {
             transition: 0.3s;
-            background-color: #969696;
+            background-color: #ba49a1;
         }
     }
 
     &__close-button {
         position: absolute;
         color: #414040;
-        top: 1rem;
-        right: 1rem;
+        // top: 1rem;
+        // right: 1rem;
         font-size: 1.6rem;
         transition: 0.3s;
         cursor: pointer;

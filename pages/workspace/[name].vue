@@ -1,6 +1,7 @@
 <template>
   <AppPage name="workspace">
     <div class="AppPage__posts">
+      <button class="AppPage__workspace-members" @click="openUsers()">Członkowie</button>
       <Post 
         v-for="(post, index) in data?.posts" 
         :key="index" 
@@ -17,6 +18,7 @@
       </div>
     </div>
     <PostForm v-if="isModalActive" @close="isModalActive = false" />
+    <WorkspaceUsers v-if="isUsersActive" @close="isUsersActive = false" :workspaceId="data?.workspace.id"/>
   </AppPage>
 </template>
 
@@ -31,9 +33,11 @@ const userStore = useUserStore();
 const api = useApi();
 const route = encodeURIComponent(useRoute().params.name);
 const isModalActive = ref(false);
+const isUsersActive = ref(false);
 
 const { data } = await useAsyncData('posts', async () => {
   const workspace = await api(`/api/workspace/${route}`);
+  console.log(workspace.id);
   const posts = await api(`/api/post/${workspace.id}/${userStore.$state.userData[0].email}`);
   posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   return {
@@ -45,10 +49,22 @@ const { data } = await useAsyncData('posts', async () => {
 function openModal() {
   if(userStore.$state.isLoggedIn) isModalActive.value = !isModalActive.value;
 }
+
+function openUsers() {
+    if(userStore.$state.isLoggedIn) isUsersActive.value = !isUsersActive.value;
+}
 </script>
 
 <style lang="scss">
 .AppPage {
+
+  &__workspace-members {
+    background: none;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
 
   &__posts {
     display: flex;

@@ -33,13 +33,14 @@ const { data: workspaces } = useAsyncData('workspaces', async () => {
 function openModal() {
     if(userStore.$state.isLoggedIn) isModalActive.value = !isModalActive.value;
 };
+
+// if(userStore.$state.isLoggedIn) reloadNuxtApp();
 </script>
 
 <style lang="scss">
 .AppPage {
 
     &__workspace-container {
-        max-width: 1440px;
         width: 100%;
         margin: 0 1rem 2rem;
     }
@@ -84,6 +85,15 @@ function openModal() {
             border: 3px solid #ba49a1;
             background-color: #ba49a1;
             transition: 0.3s;
+        }
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .AppPage {
+
+        &__workspace-container {
+            max-width: 1440px;
         }
     }
 }

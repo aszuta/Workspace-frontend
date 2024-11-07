@@ -12,6 +12,9 @@
                 <button class="AppPage__post-button" @click="openEdit()">
                     <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                 </button>
+                <button class="AppPage__post-button" @click="openUsers()">
+                    <font-awesome-icon :icon="['fas', 'users']" />
+                </button>
                 <button class="AppPage__post-button AppPage__post-button--delete" @click="deletePost()">
                     <font-awesome-icon :icon="['fas', 'xmark']" />
                 </button>
@@ -21,6 +24,7 @@
         <div class="AppPage__post-description">{{ description }}</div>
         <PostAssign v-if="isModalActive" @close="isModalActive = false" :postId="id"/>
         <PostForm v-if="isEditActive" @close="isEditActive = false" :post="post"/>
+        <PostUsers v-if="isUsersActive" @close="isUsersActive = false" :postId="id"/>
     </div>
 </template>
 
@@ -42,6 +46,7 @@ const post = {
 const userStore = useUserStore();
 const isModalActive = ref(false);
 const isEditActive = ref(false);
+const isUsersActive = ref(false);
 const api = useApi();
 
 function formatDate(data) {
@@ -58,6 +63,10 @@ function openModal() {
 
 function openEdit() {
     if(userStore.$state.isLoggedIn) isEditActive.value = !isEditActive.value;
+}
+
+function openUsers() {
+    if(userStore.$state.isLoggedIn) isUsersActive.value = !isUsersActive.value;
 }
 
 function deletePost() {
@@ -145,6 +154,15 @@ function deletePost() {
 
     &__post-description {
         margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .AppPage {
+
+        &__post-container {
+            max-width: 768px;
+        }
     }
 }
 </style>

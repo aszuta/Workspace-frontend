@@ -111,4 +111,17 @@ async function register() {
         color: #a33e8c;
     }
 }
+
+@media screen and (min-width: 768px) {
+    .AppPage {
+
+        &__register-container {
+            max-width: 600px;
+            border: 2px solid #a33e8c;
+            box-shadow: 0 0 10px #ba49a1;
+            border-radius: 20px;
+            padding: 40px;
+        }
+    }
+}
 </style>

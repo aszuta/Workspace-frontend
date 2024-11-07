@@ -77,6 +77,7 @@ async function login() {
         width: 100%;
         min-height: 40px;
         padding: 0.5rem 1rem;
+        margin-top: 15px;
         background-color: #a33e8c;
         border-radius: 20px;
         color: white;
@@ -99,6 +100,19 @@ async function login() {
     &__info-link {
         text-decoration: none;
         color: #a33e8c;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .AppPage {
+
+        &__login-container {
+            max-width: 600px;
+            border: 2px solid #a33e8c;
+            box-shadow: 0 0 10px #ba49a1;
+            border-radius: 20px;
+            padding: 40px;
+        }
     }
 }
 </style>

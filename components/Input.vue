@@ -35,6 +35,12 @@ defineProps({
         min-height: 44px;
         width: 100%;
         margin-bottom: 10px;
+
+        &:focus {
+            outline: none;
+            border: 2px solid #a33e8c;
+            box-shadow: 0 0 10px #ba49a1;
+        }
     }
 }
 </style>
