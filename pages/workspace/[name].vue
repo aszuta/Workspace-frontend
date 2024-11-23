@@ -13,7 +13,7 @@
       />
       <div class="AppPage__button-container">
         <button class="AppPage__button" @click="openModal()">
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <font-awesome :icon="['fas', 'plus']" />
         </button>
       </div>
     </div>

@@ -7,7 +7,7 @@
         </div>
         <div class="AppPage__post-buttons">
             <button class="User__button User__button--delete" @click="removeUser()">
-                <font-awesome-icon :icon="['fas', 'xmark']" />
+                <font-awesome :icon="['fas', 'xmark']" />
             </button>
         </div>
     </div>

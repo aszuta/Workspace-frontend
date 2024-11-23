@@ -10,7 +10,7 @@
                 :postId="props.postId"
             />
             <div class="Modal__close-button" @click="$emit('close')" @keydown.esc="$emit('close')" >
-                <font-awesome-icon :icon="['fas', 'xmark']" />
+                <font-awesome :icon="['fas', 'xmark']" />
             </div>
         </div>
     </dialog>

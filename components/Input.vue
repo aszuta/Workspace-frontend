@@ -25,12 +25,13 @@ defineProps({
     &__label {
         display: inherit;
         margin: 0.5rem 0;
+        font-size: 16px;
     }
 
     &__field {
-        border: solid 1px #f9f9fc;
+        border: solid 1px #d1d5db;
         border-radius: 10px;
-        font-size: 16px;
+        font-size: 14px;
         padding: 0.5rem 1rem;
         min-height: 44px;
         width: 100%;

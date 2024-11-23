@@ -23,8 +23,8 @@ defineProps({
     &__field {
 
         &--description {
-            min-height: 12vh;
-            resize: none;
+            min-height: 10vh;
+            resize: vertical;
         }
     }
 }

@@ -7,16 +7,16 @@
             </div>
             <div class="AppPage__post-buttons">
                 <button class="AppPage__post-button" @click="openModal()">
-                    <font-awesome-icon :icon="['fas', 'plus']" />
+                    <font-awesome :icon="['fas', 'plus']" />
                 </button>
                 <button class="AppPage__post-button" @click="openEdit()">
-                    <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                    <font-awesome :icon="['fas', 'pen-to-square']" />
                 </button>
                 <button class="AppPage__post-button" @click="openUsers()">
-                    <font-awesome-icon :icon="['fas', 'users']" />
+                    <font-awesome :icon="['fas', 'users']" />
                 </button>
                 <button class="AppPage__post-button AppPage__post-button--delete" @click="deletePost()">
-                    <font-awesome-icon :icon="['fas', 'xmark']" />
+                    <font-awesome :icon="['fas', 'xmark']" />
                 </button>
             </div>
         </div>
@@ -162,6 +162,8 @@ function deletePost() {
 
         &__post-container {
             max-width: 768px;
+            border-radius: 15px;
+            border: none;
         }
     }
 }

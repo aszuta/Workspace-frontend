@@ -1,15 +1,15 @@
 <template>
     <header class="AppHeader">
         <div class="AppHeader__container">
-            <NuxtLink to="/" class="AppHeader__logo">
-                <font-awesome-icon :icon="['fas', 'house-chimney']" />
+            <NuxtLink v-if="userStore.$state.isLoggedIn" to="/" class="AppHeader__logo">
+                <font-awesome :icon="['fas', 'house-chimney']" />
             </NuxtLink>
             <nav class="AppHeader__navigation">
                 <ul class="AppHeader__navigation-list">
-                    <!-- <li class="AppHeader__navigation-item">{{ userStore.userData[0].name }}</li> -->
-                    <li v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-item">
-                        <button class="AppHeader__navigation-button" @click.prevent="logout()">
-                            <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
+                    <!-- <li v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-item">{{ userStore.userData[0].name }}</li> -->
+                    <li class="AppHeader__navigation-item">
+                        <button v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-button" @click.prevent="logout()">
+                            <font-awesome :icon="['fas', 'arrow-right-from-bracket']" />
                         </button>
                     </li>
                 </ul>

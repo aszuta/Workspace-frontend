@@ -7,7 +7,7 @@
                 <button class="Modal__form-button" type="submit">Wyślij</button>
             </form>
             <div class="Modal__close-button" @click="$emit('close')" @keydown.esc="$emit('close')" >
-                <font-awesome-icon :icon="['fas', 'xmark']" />
+                <font-awesome :icon="['fas', 'xmark']" />
             </div>
         </div>
     </dialog>
@@ -37,7 +37,6 @@ async function submit() {
 
 <style lang="scss">
 .Modal {
-    // background-color: #6b6b6b;
     z-index: 10;
     width: 100%;
     height: 100%;
@@ -50,7 +49,7 @@ async function submit() {
 
     &__container {
         background-color: #fff;
-        border-radius: 3px;
+        border-radius: 10px;
         margin: 50px auto;
         padding: 20px;
         width: inherit;
@@ -81,8 +80,6 @@ async function submit() {
     &__close-button {
         position: absolute;
         color: #414040;
-        // top: 1rem;
-        // right: 1rem;
         font-size: 1.6rem;
         transition: 0.3s;
         cursor: pointer;

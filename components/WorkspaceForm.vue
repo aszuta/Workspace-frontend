@@ -7,7 +7,7 @@
                 <button class="Modal__form-button" type="submit">Wyślij</button>
             </form>
             <div class="Modal__close-button" @click="$emit('close')" @keydown.esc="$emit('close')" >
-                <font-awesome-icon :icon="['fas', 'xmark']" />
+                <font-awesome :icon="['fas', 'xmark']" />
             </div>
         </div>
     </dialog>

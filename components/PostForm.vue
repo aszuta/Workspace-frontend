@@ -3,13 +3,17 @@
         <div class="Modal__container">
             <h2 class="Modal__title">Dodaj post</h2>
             <form @submit.prevent="submit()" enctype="multipart/form-data" class="Modal__form">
-                <Input v-model="form.title" type="text" placeholder="Title" name="title" label="Title "/>
-                <InputArea v-model="form.description" type="text" placeholder="Description" name="description" label="Description "/>
-                <FileInput name="file" @uploaded-file="upload"/>
+                <Input v-model="form.title" type="text" placeholder="Title" name="title" label="Tytuł "/>
+                <InputArea v-model="form.description" type="text" placeholder="Description" name="description" label="Opis "/>
+                Zdjęcie
+                <div class="Modal__drop-zone">
+                    <font-awesome :icon="['fas', 'upload']" class="Modal__form-icon"/>
+                    <FileInput name="file" label="Dodaj zdjęcie lub przeciągnij i upuść" @uploaded-file="upload"/>
+                </div>
                 <button class="Modal__form-button" type="submit">Wyślij</button>
             </form>
             <div class="Modal__close-button" @click="$emit('close')" @keydown.esc="$emit('close')" >
-                <font-awesome-icon :icon="['fas', 'xmark']" />
+                <font-awesome :icon="['fas', 'xmark']" />
             </div>
         </div>
     </dialog>
@@ -73,7 +77,7 @@ const submit = async () => {
 
     &__container {
         background-color: #fff;
-        border-radius: 3px;
+        border-radius: 10px;
         margin: 50px auto;
         padding: 20px;
         width: inherit;
@@ -82,6 +86,24 @@ const submit = async () => {
 
     &__title {
         margin: 1rem 0;
+    }
+
+    &__drop-zone {
+        height: 150px;
+        width: 100%;
+        margin: 0.3rem 0;
+        border: 1px dashed #d1d5db;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+    }
+
+    &__form-icon {
+        font-size: 2rem;
+        margin-bottom: 0.7rem;
     }
 
     &__form-button {

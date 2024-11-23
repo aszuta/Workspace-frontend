@@ -1,18 +1,17 @@
 <template>
-    <AppPage name="home">
+     <AppPage name="home">
         <div class="AppPage__workspace-container">
             <h1 class="AppPage__title">Twoje workspace</h1>
             <div class="AppPage__boards">
                 <Board v-for="(workspace, index ) in workspaces" :key="index" :text="workspace.title"/>
                 <div class="AppPage__button-container">
-                    <button class="AppPage__button" @click="openModal()">
-                        <font-awesome-icon :icon="['fas', 'plus']" />
+                    <button class="AppPage__button" @click="openModal()"><font-awesome :icon="['fas', 'plus']" />
                     </button>
                 </div>
             </div>
         </div>
         <WorkspaceForm v-if="isModalActive" @close="isModalActive = false" />
-    </AppPage>   
+    </AppPage>
 </template>
 
 <script setup>
@@ -36,7 +35,7 @@ function openModal() {
 
 // if(userStore.$state.isLoggedIn) reloadNuxtApp();
 </script>
-
+s
 <style lang="scss">
 .AppPage {
 
