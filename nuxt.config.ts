@@ -22,7 +22,13 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
+    '@vesp/nuxt-fontawesome',
   ],
+  fontawesome: {
+    icons: {
+      solid: ['plus', 'houseChimney', 'arrowRightFromBracket', 'xmark', 'penToSquare', 'users', 'upload'],
+    },
+  },
   nitro: {
     devProxy: {
       '/api': {
