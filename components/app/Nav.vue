@@ -6,11 +6,11 @@
             </NuxtLink>
             <nav class="AppHeader__navigation">
                 <ul class="AppHeader__navigation-list">
-                    <!-- <li v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-item">{{ userStore.userData[0].name }}</li> -->
+                    <li v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-item">{{ userStore.userData.name }}</li>
                     <li class="AppHeader__navigation-item">
-                        <button v-if="userStore.$state.isLoggedIn" class="AppHeader__navigation-button" @click.prevent="logout()">
+                        <AppButton v-if="userStore.$state.isLoggedIn" @click.prevent="logout()" name="logout">
                             <font-awesome :icon="['fas', 'arrow-right-from-bracket']" />
-                        </button>
+                        </AppButton>
                     </li>
                 </ul>
             </nav>
@@ -23,6 +23,7 @@ import { useUserStore } from '~/store/user';
 
 const userStore = useUserStore();
 const api = useApi();
+const router = useRouter();
 
 async function logout() {
     await api('/api/auth/logout', {
@@ -31,7 +32,8 @@ async function logout() {
     });
     const cookie = useCookie('authcookie');
     cookie.value = null;
-    reloadNuxtApp();
+    userStore.clearUser();
+    router.push('/login');
 };
 </script>
 
@@ -62,11 +64,11 @@ async function logout() {
         z-index: 5;
         transition: 0.3s;
         text-decoration: none;
-        color: black;
+        color: var(--app-text-default);
         
         &:hover {
             transition: 0.3s;
-            color: #5f5f5f;
+            color: var(--app-text-secondary);
         }
     }
 
@@ -91,18 +93,6 @@ async function logout() {
         align-items: center;
         height: inherit;
         padding: 0 1rem;
-    }
-
-    &__navigation-button {
-        background: none;
-        font-size: 20px;
-        cursor: pointer;
-        transition: 0.3s;
-        
-        &:hover {
-            transition: 0.3s;
-            color: #5f5f5f;
-        }
     }
 }
 </style>

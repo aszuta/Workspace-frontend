@@ -29,7 +29,7 @@ defineProps({
     }
 
     &__field {
-        border: solid 1px #d1d5db;
+        border: solid 1px var(--app-border-primary);
         border-radius: 10px;
         font-size: 14px;
         padding: 0.5rem 1rem;
@@ -39,8 +39,8 @@ defineProps({
 
         &:focus {
             outline: none;
-            border: 2px solid #a33e8c;
-            box-shadow: 0 0 10px #ba49a1;
+            border: 2px solid var(--app-primary);
+            box-shadow: 0 0 10px var(--app-primary-light);
         }
     }
 }

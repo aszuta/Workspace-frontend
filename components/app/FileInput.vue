@@ -43,7 +43,7 @@ const handleFileChange = (fileData) => {
         opacity: 0;
 
         &:hover {
-            border: 1px solid #666666;
+            border: 1px solid var(--app-border-default);
             transition: 0.3s;
         }
     }

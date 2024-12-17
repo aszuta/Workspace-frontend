@@ -21,16 +21,16 @@ defineProps({
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 3px solid #ffffff;
+        border: 3px solid var(--app-bg-default);
         border-radius: 10px;
-        background-color: #ffffff;
+        background-color: var(--app-bg-default);
         padding: 10px;
         width: 100%;
         height: 100%;
         transition: 0.3s ease-in-out;
 
         &:hover {
-            box-shadow: 3px 3px 6px rgba(88, 88, 88, 0.2);
+            box-shadow: 3px 3px 6px var(--app-border-light);
             cursor: pointer;
         }
     }

@@ -2,46 +2,42 @@
     <div class="AppPage__post-container">
         <div class="AppPage__post-header">
             <div class="AppPage__post-info">
-                <div class="AppPage__post-author">{{ createdBy }}</div>
-                <div class="AppPage__post-date">{{ formatDate(createdAt) }}</div>
+                <div class="AppPage__post-author">{{ props.post.createdBy }}</div>
+                <div class="AppPage__post-date">{{ formatDate(props.post.createdAt) }}</div>
             </div>
             <div class="AppPage__post-buttons">
-                <button class="AppPage__post-button" @click="openModal()">
+                <AppButton @click="openModal()" name="secondary">
                     <font-awesome :icon="['fas', 'plus']" />
-                </button>
-                <button class="AppPage__post-button" @click="openEdit()">
+                </AppButton>
+                <AppButton @click="openEdit()" name="secondary">
                     <font-awesome :icon="['fas', 'pen-to-square']" />
-                </button>
-                <button class="AppPage__post-button" @click="openUsers()">
+                </AppButton>
+                <AppButton @click="openUsers()" name="secondary">
                     <font-awesome :icon="['fas', 'users']" />
-                </button>
-                <button class="AppPage__post-button AppPage__post-button--delete" @click="deletePost()">
+                </AppButton>
+                <AppButton @click="deletePost()" name="close-light">
                     <font-awesome :icon="['fas', 'xmark']" />
-                </button>
+                </AppButton>
             </div>
         </div>
-        <h2 class="AppPage__post-title">{{ title }}</h2>
-        <div class="AppPage__post-description">{{ description }}</div>
-        <PostAssign v-if="isModalActive" @close="isModalActive = false" :postId="id"/>
-        <PostForm v-if="isEditActive" @close="isEditActive = false" :post="post"/>
-        <PostUsers v-if="isUsersActive" @close="isUsersActive = false" :postId="id"/>
+        <h2 class="AppPage__post-title">{{ props.post.title }}</h2>
+        <div class="AppPage__post-description">{{ props.post.description }}</div>
+        <AppPostAssign v-if="isModalActive" @close="isModalActive = false" :postId="props.post.id"/>
+        <AppPostForm v-if="isEditActive" @close="isEditActive = false" :post="post"/>
+        <AppPostUsers v-if="isUsersActive" @close="isUsersActive = false" :postId="props.post.id"/>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    id: Number,
-    title: String,
-    description: String,
-    createdBy: Number,
-    createdAt: String
+    post: Object,
 });
 
 import { useUserStore } from '~/store/user';
 
 const post = {
-    title: props.title,
-    description: props.description,
+    title: props.post.title,
+    description: props.post.description,
 };
 const userStore = useUserStore();
 const isModalActive = ref(false);
@@ -71,7 +67,7 @@ function openUsers() {
 
 function deletePost() {
     try {
-        api(`/api/post/${props.id}`, {
+        api(`/api/post/${props.post.id}`, {
             method: 'delete',
         }).then(() => reloadNuxtApp());
     } catch (error) {
@@ -84,8 +80,7 @@ function deletePost() {
 .AppPage {
 
     &__post-container {
-        border: 1px solid #e6e4e4;
-        background-color: #ffffff;
+        background-color: var(--app-bg-default);
         max-width: 1024px;
         width: 100%;
         padding: 10px;
@@ -117,7 +112,7 @@ function deletePost() {
         display: flex;
         align-items: center;
         font-size: 13px;
-        color: #969494;
+        color: var(--app-text-primaryt);
     }
 
     &__post-buttons {
@@ -125,30 +120,8 @@ function deletePost() {
         gap: 2px;
     }
 
-    &__post-button {
-        background: none;
-        width: 40px;
-        cursor: pointer;
-        transition: 0.3s;
-        font-size: 16px;
-
-        &:hover {
-            transition: 0.3s;
-            color: #5f5f5f;
-        }
-
-        &--delete {
-            color: #ed0e0e;
-
-            &:hover {
-                transition: 0.3s;
-                color: #f75959;
-            }
-        }
-    }
-
     &__post-title {
-        box-shadow: 0 1px #e6e4e4;
+        box-shadow: 0 1px var(--app-color-underline);
         margin-bottom: 15px;
     }
 
@@ -161,7 +134,7 @@ function deletePost() {
     .AppPage {
 
         &__post-container {
-            max-width: 768px;
+            width: 768px;
             border-radius: 15px;
             border: none;
         }
