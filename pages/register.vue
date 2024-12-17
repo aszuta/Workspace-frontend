@@ -1,21 +1,19 @@
 <template>
     <AppPage name="register">
-        <div class="AppPage__register-container">
-            <form class="AppPage__register-form" method="post" @submit.prevent="submit()">
-                <h1 class="AppPage__form-title">Register</h1>
-                {{ error.name }}
-                <Input v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
-                {{ error.email }}
-                <Input v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
-                {{ error.password }}
-                <Input v-model="form.password" type="password" placeholder="Password" name="password" label="Password "/>
-                <button class="AppPage__form-button">Zarejestruj się</button>
-            </form>
+        <AppForm @submit="submit()" name="primary">
+            <h1 class="AppPage__form-title">Register</h1>
+            {{ error.name }}
+            <AppInput v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
+            {{ error.email }}
+            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
+            {{ error.password }}
+            <AppInput v-model="form.password" type="password" placeholder="Password" name="password" label="Password "/>
+            <AppButton name="default">Zarejestruj się</AppButton>
             <div class="AppPage__info">
                 Masz konto?
                 <NuxtLink to="/login" class="AppPage__info-link">Zaloguj się</NuxtLink>
             </div>
-        </div>
+        </AppForm>
     </AppPage>
 </template>
 
@@ -49,8 +47,7 @@ function submit() {
 
 async function register() {
     try {
-        console.log(form.value);
-        await api('/api/user', {
+        await api('/api/register', {
             method: 'post',
             body: form.value,
         }).then(() => {
@@ -62,66 +59,3 @@ async function register() {
     }
 };
 </script>
-
-<style lang="scss">
-.AppPage {
-
-    &__register-container {
-        display: inherit;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    &__register-form {
-        margin-top: 2rem;
-        padding: 1rem 2rem;
-    }
-
-    &__form-title {
-        text-align: center;
-        font-size: 30px;
-        margin-bottom: 1rem;
-    }
-
-    &__form-button {
-        width: 100%;
-        min-height: 40px;
-        padding: 0.5rem 1rem;
-        background-color: #a33e8c;
-        border-radius: 20px;
-        color: white;
-        font-size: 16px;
-        transition: 0.3s;
-        cursor: pointer;
-
-        &:hover {
-            transition: 0.3s;
-            background-color: #ba49a1;
-        }
-    }
-
-    &__info {
-        display: inherit;
-        flex-direction: inherit;
-        align-items: center;
-    }
-
-    &__info-link {
-        text-decoration: none;
-        color: #a33e8c;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .AppPage {
-
-        &__register-container {
-            max-width: 600px;
-            border: 2px solid #a33e8c;
-            box-shadow: 0 0 10px #ba49a1;
-            border-radius: 20px;
-            padding: 40px;
-        }
-    }
-}
-</style>

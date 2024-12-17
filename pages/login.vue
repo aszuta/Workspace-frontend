@@ -1,18 +1,16 @@
 <template>
     <AppPage name="login">
-        <div class="AppPage__login-container">
-            <form class="AppPage__login-form" method="post" @submit.prevent="submit()">
-                <h1 class="AppPage__form-title">Login</h1>
-                <Input v-model="form.email" type="text" name="email" label="Email "/>
-                <Input v-model="form.password" type="password" name="password" label="Password "/>
-                <button class="AppPage__form-button">Zaloguj się</button>
-                {{ error }}
-            </form>
+        <AppForm @submit="submit()" name="primary">
+            <h1 class="AppPage__form-title">Login</h1>
+            <AppInput v-model="form.email" type="text" name="email" label="Email "/>
+            <AppInput v-model="form.password" type="password" name="password" label="Password "/>
+            <AppButton name="default">Zaloguj się</AppButton>
+            {{ error }}
             <div class="AppPage__info">
-                Nie masz konta?
-                <NuxtLink to="/register" class="AppPage__info-link">Zarejestruj się</NuxtLink>
-            </div>
+            Nie masz konta?
+            <NuxtLink to="/register" class="AppPage__info-link">Zarejestruj się</NuxtLink>
         </div>
+        </AppForm>
     </AppPage>
 </template>
 
@@ -40,7 +38,6 @@ function submit() {
 
 async function login() {
     try {
-        console.log(form);
         await api('api/auth/login', {
             method: 'post',
             body: form.value
@@ -57,62 +54,22 @@ async function login() {
 <style lang="scss">
 .AppPage {
 
-    &__login-container {
-        display: inherit;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    &__login-form {
-        padding: 1rem 2rem;
-    }
-
     &__form-title {
         text-align: center;
         font-size: 30px;
         margin-bottom: 1rem;
     }
 
-    &__form-button {
-        width: 100%;
-        min-height: 40px;
-        padding: 0.5rem 1rem;
-        margin-top: 15px;
-        background-color: #a33e8c;
-        border-radius: 20px;
-        color: white;
-        font-size: 16px;
-        transition: 0.3s;
-        cursor: pointer;
-
-        &:hover {
-            transition: 0.3s;
-            background-color: #ba49a1;
-        }
-    }
-
     &__info {
-        display: inherit;
-        flex-direction: inherit;
+        display: flex;
+        flex-direction: column;
         align-items: center;
+        padding-top: 1rem;
     }
 
     &__info-link {
         text-decoration: none;
-        color: #a33e8c;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .AppPage {
-
-        &__login-container {
-            max-width: 600px;
-            border: 2px solid #a33e8c;
-            box-shadow: 0 0 10px #ba49a1;
-            border-radius: 20px;
-            padding: 40px;
-        }
+        color: var(--app-primary);
     }
 }
 </style>

@@ -10,6 +10,7 @@ export default defineNuxtPlugin(() => {
             if(!cookie) {
                 return await $fetch('/api/auth/refresh', {
                     credentials: 'include',
+                    method: 'post'
                 });
             }
 
@@ -20,6 +21,7 @@ export default defineNuxtPlugin(() => {
             if(currentDate > exp) {
                 await $fetch('/api/auth/refresh', {
                     credentials: 'include',
+                    method: 'post'
                 });
             }
         }, 30000);

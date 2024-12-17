@@ -20,7 +20,7 @@ defineProps({
 .Error {
     width: 100%;
     min-height: 100vh;
-    background-color: #f9f9fb;
+    background-color: var(--app-bg-primary);
 
     &__error-container {
         display: flex;
@@ -32,7 +32,7 @@ defineProps({
     }
 
     &__status-code {
-        color: #a33e8c;
+        color: var(--app-primary);
         font-weight: 900;
         font-size: 30px;
     }
@@ -45,10 +45,10 @@ defineProps({
     &__button {
         font-size: 18px;
         font-weight: 500;
-        color: #a33e8c;
+        color: var(--app-primary);
 
         &:hover {
-            color: #ba49a1;
+            color: var(--app-primary-light);
         }
     }
 }

@@ -6,7 +6,7 @@ export default defineNuxtPlugin(async () => {
     const api = useApi();
 
     const getUser = async () => {
-        const profile = await api('/api/auth/profile', {
+        const profile = await api('/api/handshake', {
             method: 'GET'
         });
 

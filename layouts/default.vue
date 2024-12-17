@@ -1,6 +1,6 @@
 <template>
     <div class="Layout">
-        <Nav />
+        <AppNav />
         <NuxtPage />
     </div>
 </template>
@@ -9,6 +9,6 @@
 .Layout {
     width: 100%;
     min-height: 100vh;
-    background-color: #f9f9fb;
+    background-color: var(--app-bg-primary);
 }
 </style>

@@ -11,6 +11,11 @@ export const useUserStore = defineStore('user', {
     actions: {
         setUser(user: Object) {
             this.userData = user;
+        },
+
+        clearUser() {
+            this.isLoggedIn = false;
+            this.userData = [];
         }
-    }
+    },
 })
