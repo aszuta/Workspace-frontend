@@ -22,6 +22,9 @@
         </div>
         <h2 class="AppPage__post-title">{{ props.post.title }}</h2>
         <div class="AppPage__post-description">{{ props.post.description }}</div>
+        <div class="AppPage__picture-container">
+            <img :src="`http://localhost:8000/${props.post.picture.filepath}`" alt="" class="AppPage__picture">
+        </div>
         <AppPostAssign v-if="isModalActive" @close="isModalActive = false" :postId="props.post.id"/>
         <AppPostForm v-if="isEditActive" @close="isEditActive = false" :post="post"/>
         <AppPostUsers v-if="isUsersActive" @close="isUsersActive = false" :postId="props.post.id"/>
@@ -36,8 +39,10 @@ const props = defineProps({
 import { useUserStore } from '~/store/user';
 
 const post = {
+    id: props.post.id,
     title: props.post.title,
     description: props.post.description,
+    workspaceId: props.post.workspaceId
 };
 const userStore = useUserStore();
 const isModalActive = ref(false);
@@ -127,6 +132,16 @@ function deletePost() {
 
     &__post-description {
         margin-bottom: 10px;
+    }
+
+
+    &__picture-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__picture {
+        width: 100%;
     }
 }
 

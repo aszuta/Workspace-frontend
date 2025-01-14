@@ -3,7 +3,7 @@
         <AppUser v-for="(user, index) in assignedUsers" 
             :key="index" 
             :userData="user"
-            :postId="props.postId"
+            @removeUser="remove"
         />
         <AppButton @click="$emit('close')" @keydown.esc="$emit('close')" name="close-dark">
             <font-awesome :icon="['fas', 'xmark']" />
@@ -23,4 +23,14 @@ onMounted(async () => {
     const users = await api(`/api/workspace/users/${props.workspaceId}`);
     assignedUsers.value = users;
 });
+
+function remove(userData) {
+    try {
+        api(`/api/workspace/${props.workspaceId}/${userData.email}`, {
+            method: 'delete',
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
 </script>

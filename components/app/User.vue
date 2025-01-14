@@ -6,7 +6,7 @@
             <div class="User__email">{{ userData.email }}</div>
         </div>
         <div class="AppPage__post-buttons">
-            <AppButton @click="removeUser()" name="close-light">
+            <AppButton @click="$emit('removeUser', userData)" name="close-light">
                 <font-awesome :icon="['fas', 'xmark']" />
             </AppButton>
         </div>
@@ -15,21 +15,8 @@
 
 <script setup>
 const props = defineProps({
-    userData: Object,
-    postId: Number,
+    userData: Object
 });
-
-const api = useApi();
-
-function removeUser() {
-    try {
-        api(`/api/post/${props.postId}/${props.userData.email}`, {
-            method: 'delete',
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
 </script>
 
 <style lang="scss">
@@ -55,27 +42,5 @@ function removeUser() {
         border-radius: 100px;
         color: white;
     }
-
-    // &__button {
-    //     background: none;
-    //     width: 40px;
-    //     cursor: pointer;
-    //     transition: 0.3s;
-    //     font-size: 16px;
-
-    //     &:hover {
-    //         transition: 0.3s;
-    //         color: var(--app-text-secondary);
-    //     }
-
-    //     &--delete {
-    //         color: var(--app-color-danger);
-
-    //         &:hover {
-    //             transition: 0.3s;
-    //             color: var(--app-color-danger-light);
-    //         }
-    //     }
-    // }
 }
 </style>

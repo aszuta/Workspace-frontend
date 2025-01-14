@@ -1,5 +1,5 @@
 <template>
-    <button :class="`Button Button--${name}`" @submit.prevent="$emit('click')">
+    <button :class="`Button Button--${name}`" @submit.prevent="$emit('click')" :type="type">
         <slot></slot>
     </button>
 </template>
@@ -7,6 +7,7 @@
 <script setup>
 defineProps({
     name: String,
+    type: String,
 });
 </script>
 
@@ -20,8 +21,6 @@ defineProps({
     font-size: 16px;
     transition: 0.3s;
     cursor: pointer;
-
-    
 
     &--default {
         background-color: var(--app-primary);

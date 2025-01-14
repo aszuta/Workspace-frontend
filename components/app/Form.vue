@@ -1,6 +1,6 @@
 <template>
     <div :class="`AppForm AppForm--${name}`">
-        <form class="AppForm__container" method="post" @submit="$emit('submit')" :enctype="enctype">
+        <form class="AppForm__container" method="post" @submit.prevent="$emit('send')" :enctype="enctype">
             <slot></slot>
         </form>
     </div>
@@ -23,8 +23,12 @@ defineProps({
     width: 100%;
 
     &__container {
-        margin-top: 2rem;
-        padding: 1rem 2rem;
+        margin-top: 1rem;
+    }
+
+    &--primary {
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 }
 

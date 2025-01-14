@@ -1,14 +1,16 @@
 <template>
      <AppPage name="home">
         <div class="AppPage__workspace-container">
-            <h1 class="AppPage__title">Twoje workspace</h1>
-            <div class="AppPage__boards">
-                <AppBoard v-for="(workspace, index ) in workspaces" :key="index" :text="workspace.title"/>
+            <div class="AppPage_workspace_header">
+                <h1 class="AppPage__title">Twoje workspace</h1>
                 <div class="AppPage__button-container">
                     <AppButton class="AppPage__button" @click="openModal()" name="plus">
                         <font-awesome :icon="['fas', 'plus']" />
                     </AppButton>
                 </div>
+            </div>
+            <div class="AppPage__boards">
+                <AppBoard v-for="(workspace, index ) in workspaces" :key="index" :text="workspace.title"/>
             </div>
         </div>
         <AppWorkspaceForm v-if="isModalActive" @close="isModalActive = false" />
@@ -27,14 +29,14 @@ const userStore = useUserStore();
 const isModalActive = ref(false);
 
 const { data: workspaces } = useAsyncData('workspaces', async () => {
-    return await api(`/api/workspace/user/${userStore.$state.userData.email}`);
+    return await api(`/api/workspace/user/${userStore.$state.userData.email || userStore.$state.userData}`);
 });
 
 function openModal() {
     if(userStore.$state.isLoggedIn) isModalActive.value = !isModalActive.value;
 };
 
-if(userStore.$state.isLoggedIn) reloadNuxtApp();
+if(userStore.isLoggedIn) reloadNuxtApp();
 </script>
 s
 <style lang="scss">
@@ -43,6 +45,11 @@ s
     &__workspace-container {
         width: 100%;
         margin: 0 1rem 2rem;
+    }
+
+    &__workspace-header {
+        display: flex;
+        justify-content: space-between;
     }
 
     &__title {

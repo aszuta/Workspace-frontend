@@ -31,7 +31,7 @@ const handleFileChange = (fileData) => {
     &__label {
         display: inherit;
         margin: 0.5rem 0;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     &__field {

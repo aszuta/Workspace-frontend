@@ -1,5 +1,5 @@
 <template>
-    <dialog class="Modal" @keydown.esc="$emit('close')">
+    <dialog class="Modal" @click.self="$emit('close')">
         <div class="Modal__container">
             <h2 class="Modal__title">{{ title }}</h2>
             <slot></slot>
