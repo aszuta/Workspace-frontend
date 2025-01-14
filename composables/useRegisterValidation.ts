@@ -30,10 +30,8 @@ export const useRegisterValidation = () => {
         } else if(password.length < 3) {
             errors.value.password = 'Hasło powinno zawierać przynajmniej 3 znaki.'
         }
-    
-        if(Object.keys(errors.value).length === 0) {
-            return true;
-        }
+
+        return Object.values(errors.value).every((error) => error === '');
     };
 
     return {

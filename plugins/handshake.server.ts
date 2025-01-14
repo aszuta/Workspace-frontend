@@ -9,7 +9,6 @@ export default defineNuxtPlugin(async () => {
         const profile = await api('/api/handshake', {
             method: 'GET'
         });
-
         user.setUser(profile as Object);
     }
 
