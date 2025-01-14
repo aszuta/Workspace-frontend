@@ -1,13 +1,11 @@
 <template>
     <AppPage name="register">
-        <AppForm @submit="submit()" name="primary">
+        <AppForm @send="submit()" name="primary">
             <h1 class="AppPage__form-title">Register</h1>
-            {{ error.name }}
-            <AppInput v-model="form.name" type="text" placeholder="Name" name="name" label="Name "/>
-            {{ error.email }}
-            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
-            {{ error.password }}
-            <AppInput v-model="form.password" type="password" placeholder="Password" name="password" label="Password "/>
+            <div v-if="errorMessage" class="AppPage__form-error">{{ errorMessage }}</div>
+            <AppInput v-model="form.name" type="text" placeholder="Name" name="name" label="Name " :error="error.name"/>
+            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email " :error="error.email"/>
+            <AppInput v-model="form.password" type="password" placeholder="Password" name="password" label="Password " :error="error.password"/>
             <AppButton name="default">Zarejestruj się</AppButton>
             <div class="AppPage__info">
                 Masz konto?
@@ -18,6 +16,8 @@
 </template>
 
 <script setup>
+import { useUserStore } from '~/store/user'; 
+
 const api = useApi();
 const { errors, validateRegister } = useRegisterValidation();
 const form = ref({
@@ -28,8 +28,10 @@ const form = ref({
 let error = ref({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    message: ''
 });
+let errorMessage = ref('');
 
 function submit() {
     const result = validateRegister(form.value.name, form.value.email, form.value.password);
@@ -41,7 +43,7 @@ function submit() {
             name: errors.value.name,
             email: errors.value.email,
             password: errors.value.password
-        }
+        };
     }
 };
 
@@ -55,7 +57,9 @@ async function register() {
             navigateTo('/');
         });
     } catch (error) {
-        console.log(error);
+        if(error.response && error.response.status === 409) {
+            errorMessage.value = error.response._data.message;
+        }
     }
 };
 </script>

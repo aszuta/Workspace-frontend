@@ -1,11 +1,11 @@
 <template>
     <AppPage name="login">
-        <AppForm @submit="submit()" name="primary">
+        <AppForm @send="submit()" name="primary">
             <h1 class="AppPage__form-title">Login</h1>
+            <div v-if="errorMessage" class="AppPage__form-error">{{ errorMessage }}</div>
             <AppInput v-model="form.email" type="text" name="email" label="Email "/>
             <AppInput v-model="form.password" type="password" name="password" label="Password "/>
             <AppButton name="default">Zaloguj się</AppButton>
-            {{ error }}
             <div class="AppPage__info">
             Nie masz konta?
             <NuxtLink to="/register" class="AppPage__info-link">Zarejestruj się</NuxtLink>
@@ -19,12 +19,13 @@ import { useUserStore } from '~/store/user';
 
 const api = useApi();
 const userStore = useUserStore();
+const router = useRouter();
 const { errors, validateLogin } = useLoginValidation();
 const form = ref({
     email: '',
     password: '',
 });
-let error = ref('');
+let errorMessage = ref('');
 
 function submit() {
     const result = validateLogin(form.value.email, form.value.password);
@@ -32,7 +33,7 @@ function submit() {
     if(result === true) {
         login();
     } else {
-        error.value = errors.value.loginError;
+        errorMessage.value = errors.value.loginError;
     }
 };
 
@@ -43,10 +44,13 @@ async function login() {
             body: form.value
         }).then(() => {
             userStore.$state.isLoggedIn = true;
-            navigateTo('/');
+            userStore.setUser(form.value.email);
+            router.push('/');
         });
     } catch (error) {
-        console.log(error);
+        if(error.response && error.response.status === 401) {
+            errorMessage.value = error.response._data.message;
+        }
     }
 };
 </script>
@@ -57,7 +61,14 @@ async function login() {
     &__form-title {
         text-align: center;
         font-size: 30px;
-        margin-bottom: 1rem;
+    }
+
+    &__form-error {
+        background-color: rgba(var(--app-color-red) ,1);
+        color: white;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 1rem 2rem;
     }
 
     &__info {

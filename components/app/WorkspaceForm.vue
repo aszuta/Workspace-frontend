@@ -1,8 +1,8 @@
 <template>
     <AppModal title="Stwórz przestrzeń roboczą">
-        <AppForm @submit.prevent="submit()" enctype="multipart/form-data" class="Modal__form">
-            <AppInput v-model="form.title" type="text" placeholder="Title" name="title" label="Title" />
-            <button class="Modal__form-button" type="submit">Wyślij</button>
+        <AppForm @send="submit()" enctype="multipart/form-data" class="Modal__form">
+            <AppInput v-model="form.title" type="text" placeholder="Title" name="title" label="Title" :error="error"/>
+            <AppButton name="default">Wyślij</AppButton>
         </AppForm>
         <AppButton @click="$emit('close')" @keydown.esc="$emit('close')" name="close-dark">
             <font-awesome :icon="['fas', 'xmark']" />
@@ -15,12 +15,24 @@ import { useUserStore } from '~/store/user';
 
 const api = useApi();
 const userStore = useUserStore();
-const form = {
+const { errors, validateWorkspaceTitle } = useWorkspaceValidation();
+const form = ref({
     title: '',
     owner: userStore.$state.userData.id,
+});
+let error = ref('');
+
+function submit() {
+    const result = validateWorkspaceTitle(form.value.title);
+
+    if(result === true) {
+        create();
+    } else {
+        error.value = errors.value.title;
+    }
 };
 
-async function submit() {
+async function create() {
     try {
         await api('api/workspace', {
             method: 'post',

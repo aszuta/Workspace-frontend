@@ -1,14 +1,20 @@
 <template>
     <AppModal title="Dodaj post">
-        <AppForm @submit="submit()" enctype="multipart/form-data">
-            <AppInput v-model="form.title" type="text" placeholder="Title" name="title" label="Tytuł "/>
-            <AppInputArea v-model="form.description" type="text" placeholder="Description" name="description" label="Opis "/>
-            Zdjęcie (opcjonalne)
-            <div class="Modal__drop-zone">
+        <AppForm @send="submit()" enctype="multipart/form-data">
+            <AppInput v-model="form.title" type="text" placeholder="Title" name="title" label="Tytuł " :error="error.title"/>
+            <AppInputArea v-model="form.description" type="text" placeholder="Description" name="description" label="Opis " :error="error.description"/>
+            <span class="Modal__drop-zone-title">Zdjęcie (opcjonalne)</span>
+            <div class="Modal__drop-zone" v-if="!file">
                 <font-awesome :icon="['fas', 'upload']" class="Modal__form-icon"/>
                 <AppFileInput name="file" label="Dodaj zdjęcie lub przeciągnij i upuść" @uploaded-file="upload"/>
             </div>
-            <AppButton type="submit">Wyślij</AppButton>
+            <div class="Modal__picture-preview" v-if="file">
+                    <img :src="url" class="Modal__preview-img" />
+                </div>
+            <div class="Modal__buttons">
+                <AppButton name="default" @click="reset()" type="reset">Reset</AppButton>
+                <AppButton name="default" type="submit">Wyślij</AppButton>
+            </div>
         </AppForm>
         <AppButton @click="$emit('close')" @keydown.esc="$emit('close')" name="close-dark">
             <font-awesome :icon="['fas', 'xmark']" />
@@ -28,41 +34,94 @@ const props = defineProps({
 });
 
 const api = useApi();
-const route = useRoute().params.name;
 const form = {
     title: props.post.title || '',
     description: props.post.description || '',
 };
 let file = ref('');
 const url = ref('');
+const { errors, validatePost } = usePostValidation();
+let error = ref({
+    title: '',
+    description: ''
+});
+
+const isEdit = computed(() => {
+    return !! props.post.id;
+});
+
+const currentWorkspaceId = computed(() => {
+    return props.workspaceId || props.post.workspaceId || null;
+});
 
 const upload = (data) => {
     url.value = URL.createObjectURL(data);
     file.value = data;
 };
 
-const submit = async () => {
-  try {
-    const formData = new FormData();
-    formData.append('title', form.title);
-    formData.append('description', form.description);
-    formData.append('createdBy', useUserStore().userData.id);
-    formData.append('email', useUserStore().userData.email);
-    formData.append('picture', file.value);
-    formData.append('workspaceId', props.workspaceId);
+const reset = () => {
+    form.title = '';
+    form.description = '';
+    file.value = '';
+};
 
-    await api('/api/post', {
-        method: 'post',
-        body: formData
-    });
-  } catch (error) {
-    console.log(error);
-  }
+const submit = () => {
+    const result = validatePost(form.title, form.description);
+
+    if(result === true) {
+        isEdit.value === true ? editPost() : sendPost();
+
+    } else {
+        error.value = {
+            title: errors.value.title,
+            description: errors.value.description
+        };
+    }
+};
+
+const sendPost = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('title', form.title);
+        formData.append('description', form.description);
+        formData.append('createdBy', useUserStore().userData.id);
+        formData.append('email', useUserStore().userData.email);
+        formData.append('picture', file.value);
+        formData.append('workspaceId', currentWorkspaceId.value);
+
+        await api('/api/post', {
+            method: 'post',
+            body: formData
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const editPost = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('title', form.title);
+        formData.append('description', form.description);
+        formData.append('picture', file.value);
+        formData.append('workspaceId', currentWorkspaceId.value);
+
+        await api(`/api/post/${props.post.id}`, {
+            method: 'patch',
+            body: formData
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 </script>
 
 <style lang="scss">
 .Modal {
+
+    &__drop-zone-title {
+        font-size: 14px;
+    }
 
     &__drop-zone {
         height: 150px;
@@ -80,6 +139,25 @@ const submit = async () => {
     &__form-icon {
         font-size: 2rem;
         margin-bottom: 0.7rem;
+    }
+
+    &__picture-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1.3rem 0;
+        border: 2px solid #fff;
+        transition: 0.3s;
+    }
+
+    &__preview-img {
+        width: 100%;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
     }
 
     &__form-button {

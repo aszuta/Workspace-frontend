@@ -1,8 +1,8 @@
 <template>
     <AppModal title="Dodaj użytkownika">
-        <AppForm @submit="submit()" enctype="multipart/form-data">
-            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email "/>
-            <button class="Modal__form-button" type="submit">Wyślij</button>
+        <AppForm @send="submit()" enctype="multipart/form-data">
+            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email " :error="error"/>
+            <AppButton name="default">Wyślij</AppButton>
         </AppForm>
         <AppButton @click="$emit('close')" @keydown.esc="$emit('close')" name="close-dark">
             <font-awesome :icon="['fas', 'xmark']" />
@@ -16,11 +16,23 @@ const props = defineProps({
 });
 
 const api = useApi();
+const { errors, validateWorkspaceEmail } = useWorkspaceValidation();
 const form = ref({
     email: '',
 });
+let error = ref('');
 
-async function submit() {
+function submit() {
+    const result = validateWorkspaceEmail(form.value.email);
+
+    if(result === true) {
+        assign();
+    } else {
+        error.value = errors.value.email;
+    }
+}
+
+async function assign() {
     try {
         await api(`/api/post/${props.postId}/assign`, {
         method: 'post',

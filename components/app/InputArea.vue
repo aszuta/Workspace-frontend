@@ -1,7 +1,8 @@
 <template>
     <div class="Input">
         <label :for="name" class="Input__label">{{ label }}</label>
-        <textarea :id="name" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :type="type" :class="`Input__field Input__field--${name}`"></textarea>
+        <textarea :id="name" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :type="type" :class="[`Input__field Input__field--${name}`, { 'Input--error': error }]"></textarea>
+        <span class="Input__error">{{ error }}</span>
     </div>
 </template>
 
@@ -14,6 +15,7 @@ defineProps({
         type: String,
         default: '',
     },
+    error: String
 });
 </script>
 
