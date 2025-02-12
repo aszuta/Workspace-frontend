@@ -41,6 +41,7 @@ async function logout() {
 .AppHeader {
     display: flex;
     justify-content: center;
+    background-color: var(--app-bg-primary);
     width: 100%;
     height: 4rem;
     position: fixed;

@@ -36,7 +36,7 @@ async function create() {
     try {
         await api('api/workspace', {
             method: 'post',
-            body: form
+            body: form.value
         }).then(() => reloadNuxtApp());
     } catch (error) {
         console.log(error);

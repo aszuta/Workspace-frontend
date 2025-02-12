@@ -63,18 +63,5 @@ async function assign() {
             background-color: var(--app-primary-light);
         }
     }
-
-    // &__close-button {
-    //     position: absolute;
-    //     color: var(--app-color-close-icon);
-    //     font-size: 1.6rem;
-    //     transition: 0.3s;
-    //     cursor: pointer;
-    
-    //     &:hover {
-    //         color: var(--app-color-close-icon);
-    //         transition: 0.3s;
-    //     }
-    // }
 }
 </style>

@@ -46,6 +46,16 @@ let error = ref({
     description: ''
 });
 
+onBeforeRouteLeave((to, from, next) => {
+    const confirmLeave = window.confirm("Masz niezapisane zmiany. Czy na pewno chcesz opuścić stronę?");
+
+    if(!confirmLeave) {
+        next(false);
+    } else {
+        next();
+    }
+});
+
 const isEdit = computed(() => {
     return !! props.post.id;
 });
@@ -92,7 +102,7 @@ const sendPost = async () => {
         await api('/api/post', {
             method: 'post',
             body: formData
-        });
+        }).then(() => reloadNuxtApp());
     } catch (error) {
         console.log(error);
     }
@@ -109,7 +119,7 @@ const editPost = async () => {
         await api(`/api/post/${props.post.id}`, {
             method: 'patch',
             body: formData
-        });
+        }).then(() => reloadNuxtApp());
     } catch (error) {
         console.log(error);
     }

@@ -1,5 +1,5 @@
 <template>
-    <dialog class="Modal" @click.self="$emit('close')">
+    <dialog class="Modal" ref="modalRef" @click.self="$emit('close')" @keydown.esc="$emit('close')">
         <div class="Modal__container">
             <h2 class="Modal__title">{{ title }}</h2>
             <slot></slot>
@@ -10,6 +10,12 @@
 <script setup>
 defineProps({
     title: String,
+});
+
+const modalRef = ref(false);
+
+onMounted(() => {
+    modalRef.value.focus();
 });
 </script>
 
