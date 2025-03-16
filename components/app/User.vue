@@ -1,7 +1,9 @@
 <template>
     <div class="User">
         <div class="User__container">
-            <div class="User__avatar">{{ userData.id }}</div>
+            <div class="User__avatar" :style="{ backgroundColor: avatarColor }">
+                <font-awesome :icon="['fas', 'user']" />
+            </div>
             <div class="User__name">{{ userData.name }}</div>
             <div class="User__email">{{ userData.email }}</div>
         </div>
@@ -17,6 +19,8 @@
 const props = defineProps({
     userData: Object
 });
+
+const avatarColor = useColorGenerator(props.userData.id);
 </script>
 
 <style lang="scss">
