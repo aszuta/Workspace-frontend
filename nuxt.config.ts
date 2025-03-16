@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     ],
   },
   css: [
-    '~/assets/scss/style.scss',
+    '@/assets/scss/style.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
   modules: [
@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   ],
   fontawesome: {
     icons: {
-      solid: ['plus', 'houseChimney', 'arrowRightFromBracket', 'xmark', 'penToSquare', 'users', 'upload'],
+      solid: ['plus', 'houseChimney', 'arrowRightFromBracket', 'xmark', 'penToSquare', 'user', 'users', 'upload'],
     },
   },
   nitro: {

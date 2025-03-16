@@ -41,6 +41,7 @@ async function login() {
     try {
         await api('api/auth/login', {
             method: 'post',
+            credentials: 'include',
             body: form.value
         }).then(() => {
             userStore.$state.isLoggedIn = true;

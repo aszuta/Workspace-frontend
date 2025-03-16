@@ -34,16 +34,52 @@ const props = defineProps({
 });
 
 const api = useApi();
-const form = {
+const form = ref({
     title: props.post.title || '',
     description: props.post.description || '',
-};
+});
 let file = ref('');
 const url = ref('');
 const { errors, validatePost } = usePostValidation();
+const emit = defineEmits(['postAdded', 'close']);
+const hasUnsavedChanges = ref(false);
 let error = ref({
     title: '',
     description: ''
+});
+
+watch(form, (newValue) => {
+    hasUnsavedChanges.value = true;
+    if(newValue.title === '' && newValue.description === '') hasUnsavedChanges.value = false;
+}, { deep: true });
+
+onBeforeRouteLeave((to, from, next) => {
+    if(hasUnsavedChanges.value) {
+        const confirmLeave = window.confirm("Masz niezapisane zmiany. Czy na pewno chcesz opuścić stronę?");
+
+        if(!confirmLeave) {
+            next(false);
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
+
+const beforeUnloadHandler = (event) => {
+  if (hasUnsavedChanges.value) {
+    event.preventDefault();
+    event.returnValue = '';
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("beforeunload", beforeUnloadHandler);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("beforeunload", beforeUnloadHandler);
 });
 
 const isEdit = computed(() => {
@@ -60,16 +96,18 @@ const upload = (data) => {
 };
 
 const reset = () => {
-    form.title = '';
-    form.description = '';
+    form.value.title = '';
+    form.value.description = '';
     file.value = '';
 };
 
 const submit = () => {
-    const result = validatePost(form.title, form.description);
+    const result = validatePost(form.value.title, form.value.description);
 
     if(result === true) {
         isEdit.value === true ? editPost() : sendPost();
+        hasUnsavedChanges.value = false;
+        emit('postAdded');
 
     } else {
         error.value = {
@@ -82,8 +120,8 @@ const submit = () => {
 const sendPost = async () => {
     try {
         const formData = new FormData();
-        formData.append('title', form.title);
-        formData.append('description', form.description);
+        formData.append('title', form.value.title);
+        formData.append('description', form.value.description);
         formData.append('createdBy', useUserStore().userData.id);
         formData.append('email', useUserStore().userData.email);
         formData.append('picture', file.value);
@@ -92,7 +130,7 @@ const sendPost = async () => {
         await api('/api/post', {
             method: 'post',
             body: formData
-        });
+        }).then(() => reloadNuxtApp());
     } catch (error) {
         console.log(error);
     }
@@ -101,15 +139,15 @@ const sendPost = async () => {
 const editPost = async () => {
     try {
         const formData = new FormData();
-        formData.append('title', form.title);
-        formData.append('description', form.description);
+        formData.append('title', form.value.title);
+        formData.append('description', form.value.description);
         formData.append('picture', file.value);
         formData.append('workspaceId', currentWorkspaceId.value);
 
         await api(`/api/post/${props.post.id}`, {
             method: 'patch',
             body: formData
-        });
+        }).then(() => reloadNuxtApp());
     } catch (error) {
         console.log(error);
     }

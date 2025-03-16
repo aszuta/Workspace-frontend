@@ -51,6 +51,7 @@ async function register() {
     try {
         await api('/api/register', {
             method: 'post',
+            credentials: 'include',
             body: form.value,
         }).then(() => {
             useUserStore().isLoggedIn = true;

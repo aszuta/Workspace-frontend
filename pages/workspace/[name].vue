@@ -13,7 +13,7 @@
         </AppButton>
       </div>
     </div>
-    <AppPostForm v-if="isModalActive" @close="isModalActive = false" :workspaceId="data?.workspace.id"/>
+    <AppPostForm v-if="isModalActive" @close="isModalActive = false" @postAdded="handlePosts" :workspaceId="data?.workspace.id"/>
     <AppWorkspaceUsers v-if="isUsersActive" @close="isUsersActive = false" :workspaceId="data?.workspace.id"/>
   </AppPage>
 </template>
@@ -31,7 +31,7 @@ const route = encodeURIComponent(useRoute().params.name);
 const isModalActive = ref(false);
 const isUsersActive = ref(false);
 
-const { data } = await useAsyncData('posts', async () => {
+const { data, refresh } = await useAsyncData('posts', async () => {
   const workspace = await api(`/api/workspace/${route}`);
   const posts = await api(`/api/post/${workspace.id}/${userStore.$state.userData.email}`);
   return {
@@ -46,6 +46,10 @@ function openModal() {
 
 function openUsers() {
     if(userStore.$state.isLoggedIn) isUsersActive.value = !isUsersActive.value;
+}
+
+function handlePosts() {
+  refresh();
 }
 </script>
 
@@ -64,6 +68,15 @@ function openUsers() {
     display: flex;
     justify-content: center;
     position: sticky;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .AppPage {
+
+    &__posts {
+      width: 100%;
+    }
   }
 }
 </style>

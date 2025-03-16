@@ -1,7 +1,7 @@
 <template>
     <AppModal title="Dodaj użytkownika">
         <AppForm @send="submit()" enctype="multipart/form-data">
-            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email " :error="error"/>
+            <AppInput v-model="form.email" type="text" placeholder="Email" name="email" label="Email " :error="errorMessage"/>
             <AppButton name="default">Wyślij</AppButton>
         </AppForm>
         <AppButton @click="$emit('close')" @keydown.esc="$emit('close')" name="close-dark">
@@ -20,7 +20,7 @@ const { errors, validateWorkspaceEmail } = useWorkspaceValidation();
 const form = ref({
     email: '',
 });
-let error = ref('');
+let errorMessage = ref('');
 
 function submit() {
     const result = validateWorkspaceEmail(form.value.email);
@@ -28,7 +28,7 @@ function submit() {
     if(result === true) {
         assign();
     } else {
-        error.value = errors.value.email;
+        errorMessage.value = errors.value.email;
     }
 }
 
@@ -39,7 +39,9 @@ async function assign() {
         body: form.value,
     });
     } catch (error) {
-        console.log(error);
+        if(error.response && error.response.status === 409) {
+            errorMessage.value = error.response._data.message;
+        }
     }
 };
 </script>
@@ -63,18 +65,5 @@ async function assign() {
             background-color: var(--app-primary-light);
         }
     }
-
-    // &__close-button {
-    //     position: absolute;
-    //     color: var(--app-color-close-icon);
-    //     font-size: 1.6rem;
-    //     transition: 0.3s;
-    //     cursor: pointer;
-    
-    //     &:hover {
-    //         color: var(--app-color-close-icon);
-    //         transition: 0.3s;
-    //     }
-    // }
 }
 </style>

@@ -2,7 +2,9 @@
     <div class="AppPage__post-container">
         <div class="AppPage__post-header">
             <div class="AppPage__post-info">
-                <div class="AppPage__post-author">{{ props.post.createdBy }}</div>
+                <div class="AppPage__post-author" :style="{ backgroundColor: avatarColor }">
+                    <font-awesome :icon="['fas', 'user']" />
+                </div>
                 <div class="AppPage__post-date">{{ formatDate(props.post.createdAt) }}</div>
             </div>
             <div class="AppPage__post-buttons">
@@ -49,6 +51,7 @@ const isModalActive = ref(false);
 const isEditActive = ref(false);
 const isUsersActive = ref(false);
 const api = useApi();
+const avatarColor = useColorGenerator(props.post.createdBy);
 
 function formatDate(data) {
     const date = new Date(data);

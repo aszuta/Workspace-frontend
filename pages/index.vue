@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="AppPage__boards">
-                <AppBoard v-for="(workspace, index ) in workspaces" :key="index" :text="workspace.title"/>
+                <AppBoard v-for="(workspace, index ) in workspaces" :key="index" :workspaceId="workspace.id" :text="workspace.title"/>
             </div>
         </div>
         <AppWorkspaceForm v-if="isModalActive" @close="isModalActive = false" />
@@ -30,7 +30,7 @@ const isModalActive = ref(false);
 
 const { data: workspaces } = useAsyncData('workspaces', async () => {
     return await api(`/api/workspace/user/${userStore.$state.userData.email || userStore.$state.userData}`);
-});
+});;
 
 function openModal() {
     if(userStore.$state.isLoggedIn) isModalActive.value = !isModalActive.value;
